@@ -13,6 +13,11 @@ This project is designed to help you showcase:
 - Cloud deployment and observability
 - Infrastructure as code
 
+## Project notes
+
+- Engineering tradeoffs: [DECISIONS.md](/C:/Users/umaab/Documents/Codex/2026-04-20-i-want-to-build-ml-project/DECISIONS.md)
+- Current known gaps: [KNOWN_LIMITATIONS.md](/C:/Users/umaab/Documents/Codex/2026-04-20-i-want-to-build-ml-project/KNOWN_LIMITATIONS.md)
+
 ## Target architecture
 
 ```text
