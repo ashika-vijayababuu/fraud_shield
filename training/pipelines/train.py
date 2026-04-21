@@ -4,20 +4,29 @@ from pathlib import Path
 
 import joblib
 import pandas as pd
-from sklearn.calibration import CalibratedClassifierCV
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, precision_recall_fscore_support, roc_auc_score
 from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 
 from training.features.build_features import select_features
+
+
+def resolve_project_path(path_value: str) -> Path:
+    path = Path(path_value)
+    if path.is_absolute():
+        return path
+    project_root = Path(__file__).resolve().parents[2]
+    return project_root / path
 
 
 def train_model(
     data_path: str = "data/processed/transactions_processed.csv",
     artifact_dir: str = "artifacts",
 ) -> None:
-    csv_path = Path(data_path)
-    artifact_path = Path(artifact_dir)
+    csv_path = resolve_project_path(data_path)
+    artifact_path = resolve_project_path(artifact_dir)
     artifact_path.mkdir(parents=True, exist_ok=True)
 
     if not csv_path.exists():
@@ -32,13 +41,12 @@ def train_model(
         features, target, test_size=0.2, random_state=42, stratify=target
     )
 
-    base_model = RandomForestClassifier(
-        n_estimators=300,
-        random_state=42,
-        class_weight="balanced_subsample",
-        min_samples_leaf=2,
+    model = Pipeline(
+        steps=[
+            ("scaler", StandardScaler()),
+            ("classifier", LogisticRegression(max_iter=2000, class_weight="balanced")),
+        ]
     )
-    model = CalibratedClassifierCV(base_model, cv=3, method="sigmoid")
     model.fit(x_train, y_train)
 
     predictions = model.predict(x_test)

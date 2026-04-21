@@ -20,21 +20,29 @@ def build_dataset(rows: int = 1000) -> pd.DataFrame:
         }
     )
 
-    risk_score = (
-        (dataframe["transaction_amount"] > 1500).astype(int) * 0.25
-        + (dataframe["merchant_risk_score"] > 0.7).astype(int) * 0.35
-        + (dataframe["transaction_velocity_1h"] > 10).astype(int) * 0.2
-        + (dataframe["international"] == 1).astype(int) * 0.15
-        + (dataframe["card_present"] == 0).astype(int) * 0.05
+    amount_scaled = (dataframe["transaction_amount"] - 10) / (3000 - 10)
+    velocity_scaled = dataframe["transaction_velocity_1h"] / 24
+
+    # Build a smooth latent score instead of hard thresholds so model outputs are less saturated.
+    latent_score = (
+        (amount_scaled * 1.1)
+        + (dataframe["merchant_risk_score"] * 1.8)
+        + (velocity_scaled * 1.0)
+        + (dataframe["international"] * 0.7)
+        + ((1 - dataframe["card_present"]) * 0.35)
+        - 2.0
     )
 
-    noise = rng.uniform(0, 0.15, rows)
-    dataframe["is_fraud"] = ((risk_score + noise) > 0.55).astype(int)
+    jitter = rng.normal(0, 0.35, rows)
+    probability = 1 / (1 + np.exp(-(latent_score + jitter)))
+    probability = np.clip(probability, 0.01, 0.99)
+    dataframe["is_fraud"] = rng.binomial(1, probability).astype(int)
     return dataframe
 
 
 def main() -> None:
-    output = Path("data/raw/transactions.csv")
+    project_root = Path(__file__).resolve().parents[2]
+    output = project_root / "data/raw/transactions.csv"
     output.parent.mkdir(parents=True, exist_ok=True)
     build_dataset().to_csv(output, index=False)
     print(f"Wrote sample dataset to {output}")

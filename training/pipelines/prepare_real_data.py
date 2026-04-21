@@ -14,6 +14,14 @@ from training.features.build_features import (
 )
 
 
+def resolve_project_path(path_value: str) -> Path:
+    path = Path(path_value)
+    if path.is_absolute():
+        return path
+    project_root = Path(__file__).resolve().parents[2]
+    return project_root / path
+
+
 def min_max_scale(series: pd.Series) -> pd.Series:
     minimum = float(series.min())
     maximum = float(series.max())
@@ -65,20 +73,28 @@ def prepare_dataset(
     input_path: str | None = None,
     output_path: str = "data/processed/transactions_processed.csv",
 ) -> Path:
+    project_root = Path(__file__).resolve().parents[2]
     if input_path is None:
         candidates = [
-            Path("data/raw/creditcard.csv"),
-            Path("data/raw/transactions.csv"),
+            project_root / "data/raw/transactions.csv",
+            project_root / "data/raw/creditcard.csv",
         ]
-        existing = next((candidate for candidate in candidates if candidate.exists()), None)
+        existing = next(
+            (
+                candidate
+                for candidate in candidates
+                if candidate.exists() and candidate.stat().st_size > 0
+            ),
+            None,
+        )
         if existing is None:
             raise FileNotFoundError(
                 "No raw dataset found. Place `creditcard.csv` or `transactions.csv` under `data/raw/`."
             )
         source = existing
     else:
-        source = Path(input_path)
-    target = Path(output_path)
+        source = resolve_project_path(input_path)
+    target = resolve_project_path(output_path)
 
     if not source.exists():
         raise FileNotFoundError(
