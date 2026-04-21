@@ -91,6 +91,24 @@ uvicorn app.api.main:app --reload
 
 4. Open the API docs at `http://127.0.0.1:8000/docs`
 
+## Fresh clone setup (recommended)
+
+For anyone cloning this repo, the smoothest path is:
+
+```powershell
+.\scripts\bootstrap.ps1
+.\scripts\run-local.ps1
+```
+
+This handles:
+
+- virtual environment setup
+- dependency install
+- sample data generation
+- data preprocessing
+- baseline model training
+- app startup
+
 ## Train on a real dataset
 
 The project now supports two CSV shapes:
