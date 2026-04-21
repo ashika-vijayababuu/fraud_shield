@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FraudShield Live</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Source+Sans+3:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-block">
+          <div class="brand-mark">FS</div>
+          <div>
+            <p class="eyebrow sidebar-eyebrow">Fraud Ops</p>
+            <h2 class="brand-title">FraudShield Live</h2>
+          </div>
+        </div>
+
+        <nav class="side-nav">
+          <a class="nav-item active" href="/">Overview</a>
+          <a class="nav-item" href="/docs" target="_blank" rel="noreferrer">API Docs</a>
+          <a class="nav-item" href="/metrics" target="_blank" rel="noreferrer">Metrics</a>
+          <a class="nav-item" href="/health" target="_blank" rel="noreferrer">Health</a>
+        </nav>
+
+        <section class="sidebar-card">
+          <p class="eyebrow sidebar-eyebrow">System</p>
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            API connected
+          </div>
+          <div class="side-meta">
+            <article>
+              <span>Model</span>
+              <strong>Random Forest</strong>
+            </article>
+            <article>
+              <span>Serving</span>
+              <strong>FastAPI</strong>
+            </article>
+            <article>
+              <span>Streaming</span>
+              <strong>Kafka Ready</strong>
+            </article>
+          </div>
+        </section>
+
+        <section class="sidebar-card accent-card">
+          <p class="eyebrow sidebar-eyebrow">Mission</p>
+          <h3>Real-time fraud monitoring with cloud-ready architecture.</h3>
+          <p class="sidebar-copy">
+            Use manual scoring or stream events into the dashboard and watch the monitoring surface update live.
+          </p>
+        </section>
+      </aside>
+
+      <main class="main-shell">
+        <header class="topbar">
+          <div class="topbar-copy">
+            <p class="eyebrow">Real-Time Fraud Detection System</p>
+            <h1>Fraud operations dashboard</h1>
+            <p class="topbar-text">
+              A larger product-style interface for scoring transactions, tracking live risk, and reviewing streamed fraud activity.
+            </p>
+          </div>
+          <div class="topbar-actions">
+            <div class="top-pill">Cloud + DevOps portfolio project</div>
+            <div class="top-pill soft">Live scoring enabled</div>
+          </div>
+        </header>
+
+        <section class="tabbar" aria-label="Dashboard Sections">
+          <button class="tab-button active" data-tab="overview" type="button">Overview</button>
+          <button class="tab-button" data-tab="transactions" type="button">Transactions</button>
+          <button class="tab-button" data-tab="alerts" type="button">Alerts</button>
+          <button class="tab-button" data-tab="models" type="button">Models</button>
+        </section>
+
+        <section class="tab-panel active" data-panel="overview">
+          <section class="hero-banner">
+            <div class="hero-panel wide">
+              <p class="eyebrow">Mission Control</p>
+              <h2>Monitor risky transactions across manual and streamed inputs.</h2>
+              <p class="hero-text">
+                This expanded layout is designed to feel like a real fraud analyst console, with a full-screen workspace, live metrics, a scoring console, and an event review feed.
+              </p>
+            </div>
+            <div class="hero-metrics">
+              <article>
+                <span>Current Focus</span>
+                <strong>Live Decisioning</strong>
+              </article>
+              <article>
+                <span>Deployment Path</span>
+                <strong>Docker, Terraform, Kubernetes</strong>
+              </article>
+              <article>
+                <span>Streaming Path</span>
+                <strong>Producer, Consumer, Dashboard</strong>
+              </article>
+            </div>
+          </section>
+
+          <section class="overview-grid">
+            <section class="card result-card large-card">
+              <div class="section-heading">
+                <p class="eyebrow">Prediction Result</p>
+                <h2>Fraud likelihood</h2>
+              </div>
+
+              <div class="result-badge" id="result-badge">Waiting for prediction</div>
+              <div class="score-ring">
+                <div class="score-ring-inner">
+                  <span id="score-value">--</span>
+                  <small>Probability</small>
+                </div>
+              </div>
+
+              <div class="result-grid">
+                <article>
+                  <span>Label</span>
+                  <strong id="label-value">--</strong>
+                </article>
+                <article>
+                  <span>Model Version</span>
+                  <strong id="model-version">baseline</strong>
+                </article>
+              </div>
+
+              <div class="explanation" id="explanation">
+                Submit a transaction to see the model's risk output and a quick reading of the result.
+              </div>
+            </section>
+
+            <section class="card form-card">
+              <div class="section-heading">
+                <p class="eyebrow">Transaction Input</p>
+                <h2>Simulate a card payment</h2>
+              </div>
+
+              <form id="prediction-form" class="prediction-form">
+                <label>
+                  Transaction Amount
+                  <input type="number" name="transaction_amount" min="1" step="0.01" value="2200" required />
+                </label>
+
+                <label>
+                  Customer Age
+                  <input type="number" name="customer_age" min="18" max="100" value="34" required />
+                </label>
+
+                <label>
+                  Merchant Risk Score
+                  <input type="number" name="merchant_risk_score" min="0" max="1" step="0.01" value="0.92" required />
+                </label>
+
+                <label>
+                  Transaction Velocity (1h)
+                  <input type="number" name="transaction_velocity_1h" min="0" value="14" required />
+                </label>
+
+                <label class="toggle">
+                  <span>Card Present</span>
+                  <input type="checkbox" name="card_present" />
+                </label>
+
+                <label class="toggle">
+                  <span>International</span>
+                  <input type="checkbox" name="international" checked />
+                </label>
+
+                <button type="submit" id="predict-button">Predict Risk</button>
+              </form>
+            </section>
+          </section>
+
+          <section class="card stats-card">
+            <div class="section-heading">
+              <p class="eyebrow">Ops Snapshot</p>
+              <h2>Live fraud metrics</h2>
+            </div>
+
+            <div class="stat-grid">
+              <article>
+                <span>Total Predictions</span>
+                <strong id="stat-total">0</strong>
+              </article>
+              <article>
+                <span>Fraud Alerts</span>
+                <strong id="stat-fraud">0</strong>
+              </article>
+              <article>
+                <span>Legit Transactions</span>
+                <strong id="stat-legit">0</strong>
+              </article>
+              <article>
+                <span>Average Risk</span>
+                <strong id="stat-risk">0%</strong>
+              </article>
+            </div>
+
+            <div class="mini-chart-wrap">
+              <canvas id="risk-chart" width="1120" height="260"></canvas>
+            </div>
+          </section>
+
+          <section class="bottom-grid">
+            <section class="card insight-card">
+              <div class="section-heading">
+                <p class="eyebrow">Analyst View</p>
+                <h2>High-risk signal rules</h2>
+              </div>
+              <div class="insight-list">
+                <article>
+                  <strong>Large amount spike</strong>
+                  <p>Transactions above normal thresholds tend to push the score upward quickly.</p>
+                </article>
+                <article>
+                  <strong>High merchant risk</strong>
+                  <p>Merchants with elevated risk profiles are weighted heavily in the baseline model.</p>
+                </article>
+                <article>
+                  <strong>Velocity anomalies</strong>
+                  <p>Frequent activity within one hour can signal card testing or automated abuse.</p>
+                </article>
+              </div>
+            </section>
+
+            <section class="card history-card">
+              <div class="section-heading">
+                <p class="eyebrow">Recent Activity</p>
+                <h2>Latest scored transactions</h2>
+              </div>
+
+              <div class="history-table-wrap">
+                <table class="history-table">
+                  <thead>
+                    <tr>
+                      <th>Time</th>
+                      <th>Amount</th>
+                      <th>Risk</th>
+                      <th>Label</th>
+                      <th>Source</th>
+                      <th>Flags</th>
+                    </tr>
+                  </thead>
+                  <tbody id="history-body">
+                    <tr>
+                      <td colspan="6" class="history-empty">No predictions yet. Score a transaction to populate the dashboard.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </section>
+        </section>
+
+        <section class="tab-panel" data-panel="transactions">
+          <section class="card full-table-card">
+            <div class="section-heading">
+              <p class="eyebrow">Transactions</p>
+              <h2>Transaction review queue</h2>
+            </div>
+            <p class="panel-copy">
+              Review every recently scored transaction across manual submissions and streaming ingestion.
+            </p>
+            <div class="history-table-wrap">
+              <table class="history-table">
+                <thead>
+                  <tr>
+                    <th>Time</th>
+                    <th>Amount</th>
+                    <th>Risk</th>
+                    <th>Label</th>
+                    <th>Source</th>
+                    <th>Flags</th>
+                  </tr>
+                </thead>
+                <tbody id="transactions-body">
+                  <tr>
+                    <td colspan="6" class="history-empty">No transaction history yet.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="tab-panel" data-panel="alerts">
+          <section class="alerts-grid">
+            <section class="card">
+              <div class="section-heading">
+                <p class="eyebrow">Alert Feed</p>
+                <h2>High-risk queue</h2>
+              </div>
+              <div class="alert-list" id="alert-list">
+                <article class="alert-empty">No fraud alerts yet.</article>
+              </div>
+            </section>
+
+            <section class="card">
+              <div class="section-heading">
+                <p class="eyebrow">Playbook</p>
+                <h2>Recommended actions</h2>
+              </div>
+              <div class="insight-list">
+                <article>
+                  <strong>Step 1: Hold transaction</strong>
+                  <p>Pause settlement for high-risk activity until analyst review is complete.</p>
+                </article>
+                <article>
+                  <strong>Step 2: Verify identity</strong>
+                  <p>Trigger additional customer verification for suspicious cross-border or card-not-present flows.</p>
+                </article>
+                <article>
+                  <strong>Step 3: Escalate pattern clusters</strong>
+                  <p>Escalate multiple rapid alerts tied to the same merchant or time window.</p>
+                </article>
+              </div>
+            </section>
+          </section>
+        </section>
+
+        <section class="tab-panel" data-panel="models">
+          <section class="models-grid">
+            <section class="card">
+              <div class="section-heading">
+                <p class="eyebrow">Model Registry</p>
+                <h2>Serving model</h2>
+              </div>
+              <div class="model-summary">
+                <article>
+                  <span>Version</span>
+                  <strong id="model-version-panel">baseline</strong>
+                </article>
+                <article>
+                  <span>Type</span>
+                  <strong>Random Forest Classifier</strong>
+                </article>
+                <article>
+                  <span>Status</span>
+                  <strong>Production Demo</strong>
+                </article>
+              </div>
+            </section>
+
+            <section class="card">
+              <div class="section-heading">
+                <p class="eyebrow">Lifecycle</p>
+                <h2>MLOps roadmap</h2>
+              </div>
+              <div class="insight-list">
+                <article>
+                  <strong>Experiment tracking</strong>
+                  <p>Track training metrics and promote the best fraud model with MLflow once the Windows package lock issue is cleared.</p>
+                </article>
+                <article>
+                  <strong>Deployment pipeline</strong>
+                  <p>Package the API with Docker, push images through CI, and deploy to Kubernetes.</p>
+                </article>
+                <article>
+                  <strong>Monitoring</strong>
+                  <p>Track inference latency, fraud rate, and drift indicators with Prometheus and Grafana.</p>
+                </article>
+              </div>
+            </section>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

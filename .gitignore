@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+*.pyc
+*.pyo
+*.pyd
+*.log
+.env
+data/raw/
+data/processed/
+artifacts/
+mlruns/
+.DS_Store
+fraudshield-project.zip
+fraudshield-project/

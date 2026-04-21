@@ -1,0 +1,6 @@
+project_name = "fraudshield"
+environment  = "dev"
+aws_region   = "ap-south-1"
+image_tag    = "latest"
+app_count    = 1
+deploy_app_service = false
