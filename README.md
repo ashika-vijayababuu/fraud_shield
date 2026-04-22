@@ -114,6 +114,8 @@ This handles:
 - baseline model training
 - app startup
 
+Note: `run-local.ps1` auto-selects a free local port (8000, 8001, 8002, or 8080) if one is already in use.
+
 ## Train on a real dataset
 
 The project now supports two CSV shapes:
