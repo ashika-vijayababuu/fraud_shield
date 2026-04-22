@@ -4,3 +4,4 @@ aws_region   = "ap-south-1"
 image_tag    = "latest"
 app_count    = 1
 deploy_app_service = false
+prediction_log_prefix = "prediction-logs"

@@ -94,6 +94,7 @@ Completed in this repo:
 - Prometheus and Grafana local monitoring configuration
 - persistent JSONL prediction logging for scored transactions
 - S3-compatible prediction log export utility
+- Terraform-managed S3 bucket target for exported prediction logs
 
 Still remaining for the full production target:
 
@@ -331,6 +332,7 @@ This repo now provides:
 - local Prometheus and Grafana monitoring
 - persistent prediction logs
 - S3-compatible prediction log export
+- Terraform S3 bucket for prediction log storage
 - cloud deployment manifests
 - Kubernetes deployment manifests
 - CI/CD scaffolding

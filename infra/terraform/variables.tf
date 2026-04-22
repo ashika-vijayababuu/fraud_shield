@@ -47,3 +47,8 @@ variable "deploy_app_service" {
   type    = bool
   default = false
 }
+
+variable "prediction_log_prefix" {
+  type    = string
+  default = "prediction-logs"
+}

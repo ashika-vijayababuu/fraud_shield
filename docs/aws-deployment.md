@@ -18,6 +18,7 @@ Why this path:
 - Security groups
 - ECR repository
 - S3 bucket for artifacts
+- S3 bucket for exported prediction logs
 - CloudWatch log group
 - ECS cluster
 - ECS task definition
@@ -56,6 +57,7 @@ terraform apply
 After apply, note the output:
 
 - `ecr_repository_url`
+- `prediction_logs_bucket_name`
 
 At this stage, the ECS service is intentionally not created yet. That avoids deployment failures before the image exists in ECR.
 
@@ -101,10 +103,21 @@ Then open:
 http://<alb_dns_name>/
 ```
 
+### 5. Export prediction logs to S3
+
+Once the app has generated `artifacts/prediction_log.jsonl`, export it with:
+
+```bash
+python scripts/export_prediction_logs.py
+```
+
+The export script reads `PREDICTION_EXPORT_BUCKET`, which Terraform now provides through the `prediction_logs_bucket_name` output.
+
 ## Notes
 
 - The current Terraform path deploys the API and frontend together as one service.
 - Kafka streaming is not deployed to AWS yet in this first path.
+- The ECS task definition now includes `PREDICTION_EXPORT_BUCKET`, `PREDICTION_EXPORT_PREFIX`, and `AWS_REGION` so future scheduled export jobs can reuse the same settings.
 - This is the right first deployment target; Kafka can be added later via MSK or separate ECS services.
 
 ## GitHub Actions deployment

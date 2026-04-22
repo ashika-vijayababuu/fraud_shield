@@ -13,6 +13,11 @@ output "artifacts_bucket_name" {
   description = "S3 bucket for model and dataset artifacts"
 }
 
+output "prediction_logs_bucket_name" {
+  value       = aws_s3_bucket.prediction_logs.bucket
+  description = "S3 bucket for exported prediction logs"
+}
+
 output "ecs_cluster_name" {
   value       = aws_ecs_cluster.main.name
   description = "ECS cluster name"

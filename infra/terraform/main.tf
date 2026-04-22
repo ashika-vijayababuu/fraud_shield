@@ -157,6 +157,30 @@ resource "aws_s3_bucket_public_access_block" "artifacts" {
   restrict_public_buckets = true
 }
 
+resource "aws_s3_bucket" "prediction_logs" {
+  bucket = "${local.name_prefix}-${data.aws_caller_identity.current.account_id}-prediction-logs"
+
+  tags = merge(local.common_tags, {
+    Name = "${local.name_prefix}-prediction-logs"
+  })
+}
+
+resource "aws_s3_bucket_versioning" "prediction_logs" {
+  bucket = aws_s3_bucket.prediction_logs.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "prediction_logs" {
+  bucket                  = aws_s3_bucket.prediction_logs.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
 resource "aws_ecr_repository" "app" {
   name                 = "${local.name_prefix}-app"
   image_tag_mutability = "MUTABLE"
@@ -215,7 +239,9 @@ resource "aws_iam_role_policy" "ecs_execution_s3_access" {
         ]
         Resource = [
           aws_s3_bucket.artifacts.arn,
-          "${aws_s3_bucket.artifacts.arn}/*"
+          "${aws_s3_bucket.artifacts.arn}/*",
+          aws_s3_bucket.prediction_logs.arn,
+          "${aws_s3_bucket.prediction_logs.arn}/*"
         ]
       }
     ]
@@ -310,6 +336,18 @@ resource "aws_ecs_task_definition" "app" {
         {
           name  = "APP_NAME"
           value = "fraud-detection-api"
+        },
+        {
+          name  = "PREDICTION_EXPORT_BUCKET"
+          value = aws_s3_bucket.prediction_logs.bucket
+        },
+        {
+          name  = "PREDICTION_EXPORT_PREFIX"
+          value = var.prediction_log_prefix
+        },
+        {
+          name  = "AWS_REGION"
+          value = var.aws_region
         }
       ]
       logConfiguration = {
