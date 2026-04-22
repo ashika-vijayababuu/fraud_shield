@@ -94,7 +94,7 @@ pip install -r requirements.txt
 uvicorn app.api.main:app --reload
 ```
 
-4. Open the API docs at `http://127.0.0.1:8000/docs`
+4. Open the API docs at `http://127.0.0.1:8765/docs`
 
 ## Fresh clone setup (recommended)
 
@@ -114,7 +114,7 @@ This handles:
 - baseline model training
 - app startup
 
-Note: `run-local.ps1` auto-selects a free local port (8000, 8001, 8002, or 8080) if one is already in use.
+Note: `run-local.ps1` tries `8765` first, then auto-selects a free local port from `8000`, `8001`, `8002`, or `8080` if needed.
 
 ## Train on a real dataset
 
@@ -148,7 +148,7 @@ Start the app:
 uvicorn app.api.main:app --reload
 ```
 
-Then open `http://127.0.0.1:8000/`
+Then open `http://127.0.0.1:8765/`
 
 ## Run tests
 
@@ -202,7 +202,7 @@ docker compose -f infra/docker/docker-compose.yml up --build
 
 This starts:
 
-- `api` on `http://127.0.0.1:8000/`
+- `api` on `http://127.0.0.1:8765/`
 - `zookeeper`
 - `kafka`
 - `consumer` for stream ingestion

@@ -29,7 +29,7 @@ function Test-PortAvailable {
   }
 }
 
-$candidatePorts = @(8000, 8001, 8002, 8080)
+$candidatePorts = @(8765, 8000, 8001, 8002, 8080)
 $selectedPort = $candidatePorts | Where-Object { Test-PortAvailable $_ } | Select-Object -First 1
 
 if (-not $selectedPort) {
