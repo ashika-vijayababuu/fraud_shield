@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from fastapi.testclient import TestClient
 
 from app.api import main
@@ -13,6 +15,8 @@ class StubModel:
 def setup_function() -> None:
     main.recent_predictions.clear()
     main.model = StubModel()
+    if main.prediction_log_path.exists():
+        main.prediction_log_path.unlink()
 
 
 def test_health_endpoint() -> None:
@@ -72,3 +76,30 @@ def test_stream_ingest_marks_source_as_stream() -> None:
 
     history = client.get("/api/recent-predictions").json()
     assert history[0]["source"] == "stream"
+
+
+def test_prediction_is_persisted_to_log_file(tmp_path: Path) -> None:
+    client = TestClient(main.app)
+    original_path = main.prediction_log_path
+    main.prediction_log_path = tmp_path / "prediction_log.jsonl"
+
+    try:
+        response = client.post(
+            "/predict",
+            json={
+                "transaction_amount": 900,
+                "customer_age": 29,
+                "merchant_risk_score": 0.55,
+                "transaction_velocity_1h": 4,
+                "card_present": False,
+                "international": True,
+            },
+        )
+
+        assert response.status_code == 200
+        assert main.prediction_log_path.exists()
+        lines = main.prediction_log_path.read_text(encoding="utf-8").strip().splitlines()
+        assert len(lines) == 1
+        assert '"source": "manual"' in lines[0]
+    finally:
+        main.prediction_log_path = original_path

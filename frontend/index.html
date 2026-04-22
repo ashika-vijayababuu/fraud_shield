@@ -39,7 +39,7 @@
           <div class="side-meta">
             <article>
               <span>Model</span>
-              <strong>Random Forest</strong>
+              <strong>Logistic Regression</strong>
             </article>
             <article>
               <span>Serving</span>
@@ -342,7 +342,7 @@
                 </article>
                 <article>
                   <span>Type</span>
-                  <strong>Random Forest Classifier</strong>
+                  <strong>Logistic Regression Pipeline</strong>
                 </article>
                 <article>
                   <span>Status</span>
@@ -359,15 +359,15 @@
               <div class="insight-list">
                 <article>
                   <strong>Experiment tracking</strong>
-                  <p>Track training metrics and promote the best fraud model with MLflow once the Windows package lock issue is cleared.</p>
+                  <p>Training runs now log metrics and model artifacts into MLflow so experiments can be reviewed and promoted more cleanly.</p>
                 </article>
                 <article>
                   <strong>Deployment pipeline</strong>
-                  <p>Package the API with Docker, push images through CI, and deploy to Kubernetes.</p>
+                  <p>Package the API with Docker, push images through CI, and extend the deployment path from ECS today to Kubernetes when needed.</p>
                 </article>
                 <article>
                   <strong>Monitoring</strong>
-                  <p>Track inference latency, fraud rate, and drift indicators with Prometheus and Grafana.</p>
+                  <p>Prometheus and Grafana are now scaffolded for local monitoring of request volume and latency.</p>
                 </article>
               </div>
             </section>

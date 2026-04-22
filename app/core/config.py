@@ -6,6 +6,12 @@ class Settings(BaseSettings):
     environment: str = "dev"
     model_path: str = "artifacts/model.joblib"
     model_version: str = "baseline"
+    prediction_log_path: str = "artifacts/prediction_log.jsonl"
+    prediction_store_limit: int = 100
+    prediction_export_bucket: str = ""
+    prediction_export_prefix: str = "prediction-logs"
+    aws_region: str = "ap-south-1"
+    s3_endpoint_url: str = ""
 
     model_config = SettingsConfigDict(
         env_file=".env",

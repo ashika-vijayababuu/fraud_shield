@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fraudshield-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fraudshield-consumer
+  template:
+    metadata:
+      labels:
+        app: fraudshield-consumer
+    spec:
+      containers:
+        - name: consumer
+          image: your-ecr-repository/fraudshield-worker:latest
+          imagePullPolicy: Always
+          command: ["python", "-m", "streaming.consumer.consume_and_score"]
+          envFrom:
+            - configMapRef:
+                name: fraudshield-config
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 300m
+              memory: 256Mi

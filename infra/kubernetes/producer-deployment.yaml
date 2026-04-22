@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fraudshield-producer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fraudshield-producer
+  template:
+    metadata:
+      labels:
+        app: fraudshield-producer
+    spec:
+      containers:
+        - name: producer
+          image: your-ecr-repository/fraudshield-worker:latest
+          imagePullPolicy: Always
+          command: ["python", "-m", "streaming.producer.simulate_transactions"]
+          envFrom:
+            - configMapRef:
+                name: fraudshield-config
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 300m
+              memory: 256Mi

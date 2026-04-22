@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fraudshield-config
+data:
+  ENVIRONMENT: "prod"
+  MODEL_PATH: "artifacts/model.joblib"
+  MODEL_VERSION: "baseline"
+  PREDICTION_LOG_PATH: "artifacts/prediction_log.jsonl"
+  KAFKA_BOOTSTRAP_SERVERS: "kafka-bootstrap.kafka.svc.cluster.local:9092"
+  KAFKA_TOPIC: "transactions"
+  FRAUD_API_INGEST_URL: "http://fraudshield-api.fraudshield.svc.cluster.local/api/ingest-transaction"
